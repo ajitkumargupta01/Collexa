@@ -54,6 +54,15 @@ const Navbar = () => {
     return () => window.removeEventListener('storage', syncUser);
   }, []);
 
+  // If a logged-in user navigates to the public home page, log them out
+  useEffect(() => {
+    if (location.pathname === '/' && user) {
+      // clear session but stay on home
+      handleLogout('/');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.pathname]);
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', onScroll);
@@ -71,7 +80,7 @@ const Navbar = () => {
     return () => document.removeEventListener('mousedown', handler);
   }, []);
 
-  const handleLogout = () => {
+  const handleLogout = (redirect = '/login') => {
     // Clear all auth-related keys
     const uid = user?._id || user?.id;
     if (uid) {
@@ -84,7 +93,7 @@ const Navbar = () => {
     setUser(null);
     setUserMenuOpen(false);
     setMenuOpen(false);
-    navigate('/login');
+    navigate(redirect);
   };
 
   let navLinks = user ? ROLE_NAV[user.role] || [] : [];
