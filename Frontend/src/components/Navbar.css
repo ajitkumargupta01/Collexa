@@ -39,6 +39,17 @@
   letter-spacing: -0.01em;
 }
 
+/* Stack emoji above the site title for the brand */
+.brand-text {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1;
+}
+
+/* Slightly reduce icon size when stacked to match text */
+.brand-text .brand-icon { font-size: 1.1rem; }
+
 /* Center links */
 .navbar-center { display: flex; align-items: center; gap: 0.1rem; }
 

@@ -113,8 +113,10 @@ const Navbar = () => {
       <div className="navbar-inner container">
         {/* Brand */}
         <Link to="/" className="navbar-brand">
-          <span className="brand-icon">🎯</span>
-          <span className="brand-name">Collexa</span>
+          <span className="brand-text">
+            <span className="brand-icon">🎯</span>
+            <span className="brand-name">Collexa</span>
+          </span>
         </Link>
 
         {/* Desktop Nav Links */}
