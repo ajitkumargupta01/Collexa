@@ -151,25 +151,25 @@ const Dashboard = () => {
   const fetchData = async (uid, role) => {
     try {
       setLoading(true);
-      const evRes = await axios.get('http://localhost:5000/api/events');
+      const evRes = await axios.get(`${import.meta.env.VITE_API_URL}/api/events`);
       setEvents(evRes.data.data || []);
 
       if (role === 'organizer') {
-        const qRes = await axios.get('http://localhost:5000/api/quotations/organizer', { headers: { 'user-id': uid } });
+        const qRes = await axios.get(`${import.meta.env.VITE_API_URL}/api/quotations/organizer`, { headers: { 'user-id': uid } });
         setMyQuotations(qRes.data.data || []);
       }
       if (role === 'company') {
         const [adRes, campRes, allCampRes] = await Promise.all([
-          axios.get('http://localhost:5000/api/ads/company', { headers: { 'user-id': uid } }),
-          axios.get('http://localhost:5000/api/campaigns/company', { headers: { 'user-id': uid } }),
-          axios.get('http://localhost:5000/api/campaigns')
+          axios.get(`${import.meta.env.VITE_API_URL}/api/ads/company`, { headers: { 'user-id': uid } }),
+          axios.get(`${import.meta.env.VITE_API_URL}/api/campaigns/company`, { headers: { 'user-id': uid } }),
+          axios.get(`${import.meta.env.VITE_API_URL}/api/campaigns`)
         ]);
         setMyAds(adRes.data.data || []);
         setMyCampaigns(campRes.data.data || []);
         setAllCampaigns(allCampRes.data.data || []);
       }
       if (role === 'student') {
-        const tRes = await axios.get('http://localhost:5000/api/tickets/my', { headers: { 'user-id': uid } });
+        const tRes = await axios.get(`${import.meta.env.VITE_API_URL}/api/tickets/my`, { headers: { 'user-id': uid } });
         setMyTickets(tRes.data.data || []);
       }
     } catch (err) {
@@ -195,7 +195,7 @@ const Dashboard = () => {
         }
       };
 
-      const { data } = await axios.put('http://localhost:5000/api/auth/profile', payload, {
+      const { data } = await axios.put(`${import.meta.env.VITE_API_URL}/api/auth/profile`, payload, {
         headers: { Authorization: `Bearer ${token}` }
       });
 
@@ -227,7 +227,7 @@ const Dashboard = () => {
           mobileNumber: studentProfile.mobileNumber,
         },
       };
-      const { data } = await axios.put('http://localhost:5000/api/auth/profile', payload, {
+      const { data } = await axios.put(`${import.meta.env.VITE_API_URL}/api/auth/profile`, payload, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (data.success) {
@@ -285,7 +285,7 @@ const Dashboard = () => {
         vendorContact: { ...profile },
       };
 
-      const { data } = await axios.post('http://localhost:5000/api/quotations', payload);
+      const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/api/quotations`, payload);
       if (data.success) {
         setMyQuotations([data.data, ...myQuotations]);
         setShowQuoteModal(false);
@@ -301,7 +301,7 @@ const Dashboard = () => {
   const handleWithdrawQuote = async (id) => {
     if (!window.confirm('Withdraw this quotation? This cannot be undone.')) return;
     try {
-      await axios.delete(`http://localhost:5000/api/quotations/${id}`, { headers: { 'user-id': user._id || user.id } });
+      await axios.delete(`${import.meta.env.VITE_API_URL}/api/quotations/${id}`, { headers: { 'user-id': user._id || user.id } });
       setMyQuotations(myQuotations.filter(q => q._id !== id));
     } catch (err) {
       console.error(err); alert('Failed to withdraw quotation.'); }
@@ -332,7 +332,7 @@ const Dashboard = () => {
         planningDetails: editQuoteForm.planningDetails,
         message: editQuoteForm.message,
       };
-      const { data } = await axios.put(`http://localhost:5000/api/quotations/${editingQuote._id}`, payload);
+      const { data } = await axios.put(`${import.meta.env.VITE_API_URL}/api/quotations/${editingQuote._id}`, payload);
       if (data.success) {
         setMyQuotations(myQuotations.map(q => q._id === editingQuote._id ? { ...q, ...payload } : q));
         setEditingQuote(null);
@@ -352,7 +352,7 @@ const Dashboard = () => {
       const uid = user._id || user.id;
       const ev = events.find(ev => ev._id === adForm.eventId);
       const payload = { ...adForm, companyId: uid, collegeId: ev?.collegeId?._id || ev?.collegeId, budget: Number(adForm.budget) };
-      const { data } = await axios.post('http://localhost:5000/api/ads', payload);
+      const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/api/ads`, payload);
       if (data.success) {
         setMyAds([data.data, ...myAds]);
         setAdForm({ eventId: '', adTitle: '', adType: 'Banner', budget: '', targetAudience: '', bannerRequirements: '', callToAction: '' });
@@ -369,7 +369,7 @@ const Dashboard = () => {
     setCampSubmitting(true);
     try {
       const uid = user._id || user.id;
-      const { data } = await axios.post('http://localhost:5000/api/campaigns', { ...campaignForm, companyId: uid, goalAmount: Number(campaignForm.goalAmount) });
+      const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/api/campaigns`, { ...campaignForm, companyId: uid, goalAmount: Number(campaignForm.goalAmount) });
       if (data.success) {
         setMyCampaigns([data.data, ...myCampaigns]);
         setCampaignForm({ title: '', description: '', goalAmount: '', category: 'Cultural', deadline: '', benefits: '' });
@@ -384,7 +384,7 @@ const Dashboard = () => {
   const handleCancelCampaign = async (id) => {
     if (!window.confirm('Cancel this campaign?')) return;
     try {
-      await axios.delete(`http://localhost:5000/api/campaigns/${id}`);
+      await axios.delete(`${import.meta.env.VITE_API_URL}/api/campaigns/${id}`);
       setMyCampaigns(myCampaigns.map(c => c._id === id ? { ...c, status: 'cancelled' } : c));
     } catch { alert('Failed to cancel campaign.'); }
   };
@@ -405,7 +405,7 @@ const Dashboard = () => {
     e.preventDefault();
     setEditAdSubmitting(true);
     try {
-      const { data } = await axios.put(`http://localhost:5000/api/ads/${editingAd._id}`, editAdForm);
+      const { data } = await axios.put(`${import.meta.env.VITE_API_URL}/api/ads/${editingAd._id}`, editAdForm);
       if (data.success) {
         setMyAds(myAds.map(a => a._id === editingAd._id ? { ...a, ...editAdForm } : a));
         setEditingAd(null);
@@ -420,7 +420,7 @@ const Dashboard = () => {
     const amt = prompt(`Enter new total raised amount (Goal: ₹${goalAmount}):`, currentRaised || 0);
     if (amt === null || isNaN(amt)) return;
     try {
-      const { data } = await axios.put(`http://localhost:5000/api/campaigns/${id}`, { raisedAmount: Number(amt) });
+      const { data } = await axios.put(`${import.meta.env.VITE_API_URL}/api/campaigns/${id}`, { raisedAmount: Number(amt) });
       if (data.success) {
         setMyCampaigns(myCampaigns.map(c => c._id === id ? data.data : c));
       }
@@ -434,9 +434,9 @@ const Dashboard = () => {
     if (!window.confirm(`Buy ticket for "${evt.title}"? Price: ₹${evt.ticketPrice || 0}`)) return;
     setBuyingEventId(evt._id);
     try {
-      const { data } = await axios.post('http://localhost:5000/api/tickets', { eventId: evt._id, studentId: uid, pricePaid: evt.ticketPrice || 0 });
+      const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/api/tickets`, { eventId: evt._id, studentId: uid, pricePaid: evt.ticketPrice || 0 });
       if (data.success) {
-        const tRes = await axios.get('http://localhost:5000/api/tickets/my', { headers: { 'user-id': uid } });
+        const tRes = await axios.get(`${import.meta.env.VITE_API_URL}/api/tickets/my`, { headers: { 'user-id': uid } });
         setMyTickets(tRes.data.data || []);
         setStudentTab('my-tickets');
       }
@@ -449,7 +449,7 @@ const Dashboard = () => {
     const uid = user._id || user.id;
     setTicketRefreshing(true);
     try {
-      const tRes = await axios.get('http://localhost:5000/api/tickets/my', { headers: { 'user-id': uid } });
+      const tRes = await axios.get(`${import.meta.env.VITE_API_URL}/api/tickets/my`, { headers: { 'user-id': uid } });
       setMyTickets(tRes.data.data || []);
     } catch (err) {
       console.error(err); console.error(err); }

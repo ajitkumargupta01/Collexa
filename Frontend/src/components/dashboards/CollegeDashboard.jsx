@@ -7,7 +7,7 @@ const CollegeDashboard = ({ user }) => {
 
   const fetchQuotes = useCallback(async () => {
     try {
-      const { data } = await axios.get('http://localhost:5000/api/quotations/college', {
+      const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/api/quotations/college`, {
         headers: { 'user-id': user.id }
       });
       setQuotes(data.data);

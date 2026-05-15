@@ -8,7 +8,7 @@ const StudentDashboard = ({ user }) => {
 
   const fetchMyTickets = useCallback(async () => {
     try {
-      const { data } = await axios.get('http://localhost:5000/api/tickets/my', {
+      const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/api/tickets/my`, {
         headers: { 'user-id': user.id }
       });
       setTickets(data.data);

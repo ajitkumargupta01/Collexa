@@ -147,7 +147,7 @@ const CollegeDashboard = () => {
   const fetchColleges = async () => {
     try {
       // Fetch all registered college names from backend
-      const res = await axios.get('http://localhost:5000/api/auth/colleges');
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/auth/colleges`);
       if (res.data.success) {
         const names = res.data.data.map((c) => c.name);
         setAllColleges([...new Set(names)]);
@@ -163,7 +163,7 @@ const CollegeDashboard = () => {
   const fetchAllData = async (collegeId) => {
     try {
       setLoading(true);
-      const evRes = await axios.get('http://localhost:5000/api/events');
+      const evRes = await axios.get(`${import.meta.env.VITE_API_URL}/api/events`);
       const allEvents = evRes.data.data || [];
       setEvents(
         allEvents.filter((evt) => {
@@ -172,12 +172,12 @@ const CollegeDashboard = () => {
         })
       );
 
-      const qRes = await axios.get('http://localhost:5000/api/quotations/college', {
+      const qRes = await axios.get(`${import.meta.env.VITE_API_URL}/api/quotations/college`, {
         headers: { 'user-id': collegeId },
       });
       setQuotations(qRes.data.data || []);
 
-      const adRes = await axios.get('http://localhost:5000/api/ads/college', {
+      const adRes = await axios.get(`${import.meta.env.VITE_API_URL}/api/ads/college`, {
         headers: { 'user-id': collegeId },
       });
       setAds(adRes.data.data || []);
@@ -242,7 +242,7 @@ const CollegeDashboard = () => {
         ...(formData.enableEarlyBird && { earlyBirdPrice: Number(formData.earlyBirdPrice) }),
       };
 
-      const { data } = await axios.post('http://localhost:5000/api/events', payload);
+      const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/api/events`, payload);
       if (data.success) {
         setEvents([...events, { ...data.data, collegeId: { _id: collegeIdToUse } }]);
         setFormData({
@@ -270,7 +270,7 @@ const CollegeDashboard = () => {
   const handleDeleteEvent = async (id) => {
     if (!window.confirm('Delete this event? All associated tickets will also be deleted.')) return;
     try {
-      await axios.delete(`http://localhost:5000/api/events/${id}`);
+      await axios.delete(`${import.meta.env.VITE_API_URL}/api/events/${id}`);
       setEvents(events.filter((evt) => evt._id !== id));
     } catch (err) {
       console.error(err);
@@ -309,7 +309,7 @@ const CollegeDashboard = () => {
         ...(formData.enableEarlyBird && { earlyBirdPrice: Number(formData.earlyBirdPrice) }),
       };
 
-      const { data } = await axios.put(`http://localhost:5000/api/events/${editingEvent._id}`, payload);
+      const { data } = await axios.put(`${import.meta.env.VITE_API_URL}/api/events/${editingEvent._id}`, payload);
       if (data.success) {
         setEvents(events.map(evt => evt._id === editingEvent._id ? { ...data.data, ticketsCount: evt.ticketsCount } : evt));
         setEditingEvent(null);
@@ -370,7 +370,7 @@ const CollegeDashboard = () => {
 
   const handleStatusChange = async (id, newStatus) => {
     try {
-      const { data } = await axios.put(`http://localhost:5000/api/events/${id}`, { status: newStatus });
+      const { data } = await axios.put(`${import.meta.env.VITE_API_URL}/api/events/${id}`, { status: newStatus });
       if (data.success) {
         setEvents(events.map(evt => evt._id === id ? { ...data.data, ticketsCount: evt.ticketsCount } : evt));
       }
@@ -383,7 +383,7 @@ const CollegeDashboard = () => {
   // --- ACTIONS: QUOTATIONS ---
   const handleQuotationStatus = async (id, status) => {
     try {
-      const { data } = await axios.put(`http://localhost:5000/api/quotations/${id}`, { status });
+      const { data } = await axios.put(`${import.meta.env.VITE_API_URL}/api/quotations/${id}`, { status });
       if (data.success) {
         setQuotations(quotations.map((q) => (q._id === id ? { ...q, status: data.data.status } : q)));
       }
@@ -396,7 +396,7 @@ const CollegeDashboard = () => {
   // --- ACTIONS: ADS ---
   const handleAdStatus = async (id, status) => {
     try {
-      const { data } = await axios.put(`http://localhost:5000/api/ads/${id}`, { status });
+      const { data } = await axios.put(`${import.meta.env.VITE_API_URL}/api/ads/${id}`, { status });
       if (data.success) {
         setAds(ads.map((ad) => (ad._id === id ? { ...ad, status: data.data.status } : ad)));
       }
@@ -415,7 +415,7 @@ const CollegeDashboard = () => {
     setScanResult(null);
     setIsValidating(true);
     try {
-      const { data } = await axios.post('http://localhost:5000/api/tickets/validate', { ticketCode: codeToValidate });
+      const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/api/tickets/validate`, { ticketCode: codeToValidate });
       setScanResult(data);
       setScanCount(prev => prev + 1);
       if (!scannedCode) setScanInput('');

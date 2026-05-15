@@ -117,7 +117,7 @@ const Login = () => {
     setLoading(true);
     try {
       if (isLogin) {
-        const { data } = await axios.post('http://localhost:5000/api/auth/login', {
+        const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/login`, {
           email: formData.email,
           password: formData.password,
         });
@@ -147,7 +147,7 @@ const Login = () => {
             address: formData.collegeLocation,
           };
         }
-        const { data } = await axios.post('http://localhost:5000/api/auth/register', payload);
+        const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/register`, payload);
         if (data.success) {
           localStorage.setItem('token', data.token);
           localStorage.setItem('user', JSON.stringify(data.user));
