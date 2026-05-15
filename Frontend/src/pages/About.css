@@ -1,0 +1,210 @@
+/* About Page */
+.about-page { padding-bottom: 5rem; }
+
+.about-hero {
+  text-align: center;
+  padding: 5rem 0 4rem;
+}
+
+.about-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 1rem;
+  border-radius: var(--radius-full);
+  background: hsla(var(--primary), 0.1);
+  border: 1px solid hsla(var(--primary), 0.2);
+  color: hsl(var(--primary));
+  font-weight: 600;
+  font-size: 0.85rem;
+  margin-bottom: 1.75rem;
+}
+
+.about-title {
+  font-size: clamp(2.2rem, 5vw, 4rem);
+  line-height: 1.15;
+  margin-bottom: 1.25rem;
+}
+
+.about-subtitle {
+  font-size: 1.1rem;
+  color: hsl(var(--text-muted));
+  max-width: 620px;
+  margin: 0 auto 2rem;
+  line-height: 1.7;
+}
+
+.about-cta-row {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Stats band */
+.about-stats {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0;
+  margin: 0 0 5rem;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.about-stat {
+  flex: 1;
+  min-width: 140px;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  border-right: 1px solid hsla(var(--border), 0.4);
+}
+.about-stat:last-child { border-right: none; }
+
+.about-stat-val {
+  display: block;
+  font-size: 2.5rem;
+  font-weight: 800;
+  font-family: var(--font-display);
+  line-height: 1;
+  margin-bottom: 0.4rem;
+}
+
+.about-stat-label {
+  font-size: 0.82rem;
+  color: hsl(var(--text-muted));
+  font-weight: 500;
+}
+
+/* How it works */
+.about-how-it-works { margin-bottom: 5rem; }
+
+.about-steps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.about-step-card {
+  padding: 2.25rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid hsla(var(--border), 0.5);
+  position: relative;
+  transition: transform 0.25s, border-color 0.25s;
+}
+
+.about-step-card:hover {
+  transform: translateY(-6px);
+  border-color: hsla(var(--primary), 0.5);
+}
+
+.about-step-num {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 3rem;
+  font-weight: 900;
+  color: hsla(var(--primary), 0.15);
+  line-height: 1;
+  margin-bottom: 1rem;
+  letter-spacing: -0.04em;
+}
+
+.about-step-card h3 {
+  font-size: 1.3rem;
+  margin-bottom: 0.85rem;
+}
+
+.about-step-card p {
+  font-size: 0.95rem;
+  color: hsl(var(--text-muted));
+  line-height: 1.65;
+}
+
+/* Roles */
+.about-roles { margin-bottom: 5rem; }
+
+.section-center-title {
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.section-center-sub {
+  text-align: center;
+  color: hsl(var(--text-muted));
+  margin-bottom: 3rem;
+}
+
+.about-roles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+.about-role-card {
+  padding: 2rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid hsla(var(--border), 0.5);
+  transition: transform 0.25s, border-color 0.25s;
+}
+
+.about-role-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--role-color, hsl(var(--primary)));
+}
+
+.arc-icon-wrap {
+  display: inline-flex;
+  padding: 0.85rem;
+  border-radius: var(--radius-md);
+  margin-bottom: 1rem;
+}
+
+.about-role-card h3 {
+  font-size: 1.4rem;
+  margin-bottom: 0.75rem;
+}
+
+.arc-desc {
+  font-size: 0.875rem;
+  color: hsl(var(--text-muted));
+  line-height: 1.65;
+  margin-bottom: 1.25rem;
+}
+
+.arc-features {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.arc-features li {
+  font-size: 0.83rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+}
+
+.arc-features span { flex-shrink: 0; font-weight: 700; }
+
+/* CTA Banner */
+.about-cta-banner { margin-bottom: 2rem; }
+
+.cta-inner {
+  padding: 4rem 3rem;
+  border-radius: var(--radius-lg);
+  text-align: center;
+  border: 1px solid hsla(var(--primary), 0.2);
+  background: linear-gradient(135deg, hsla(var(--primary), 0.05), hsla(var(--secondary), 0.05));
+}
+
+.cta-inner h2 { font-size: 2.2rem; margin-bottom: 0.75rem; }
+.cta-inner p { color: hsl(var(--text-muted)); font-size: 1rem; }
+
+/* Reuse from home */
+.lg-btn {
+  padding: 1rem 2rem;
+  font-size: 1rem;
+}
