@@ -297,4 +297,3 @@ We welcome contributions from the community!
 
 ---
 *Thank you for exploring Collexa!*
-*Total Lines of Project Documentation: ~500*
