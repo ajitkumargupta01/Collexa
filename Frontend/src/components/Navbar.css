@@ -42,7 +42,15 @@
 /* Center links */
 .navbar-center { display: flex; align-items: center; gap: 0.1rem; }
 
-@media (max-width: 768px) { .navbar-center { display: none; } }
+@media (max-width: 768px) { 
+  .navbar-center { display: none; }
+  .navbar-inner { flex-wrap: wrap; row-gap: 0.5rem; padding: 0.75rem 1rem; }
+  .navbar-brand { min-width: 0; }
+  .brand-name { font-size: 1rem; }
+  .navbar-right { width: 100%; justify-content: space-between; gap: 0.5rem; }
+  .auth-btns { width: 100%; justify-content: flex-end; }
+  .btn-primary-nav, .btn-ghost-nav { padding: 0.5rem 0.85rem; font-size: 0.82rem; }
+}
 
 .nav-link {
   font-weight: 500;
@@ -240,38 +248,46 @@
 }
 @media (max-width: 768px) { .mobile-menu { display: block; } }
 
-.mobile-menu.mobile-open { max-height: 520px; }
+.mobile-menu {
+  background: linear-gradient(180deg, rgba(15,15,19,0.96), rgba(24,24,33,0.98));
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.mobile-menu.mobile-open { max-height: 640px; }
 
 .mob-user-info {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.7rem 1.25rem;
-  font-size: 0.85rem;
+  padding: 1rem 1.25rem;
+  font-size: 0.9rem;
   font-weight: 600;
-  border-bottom: 1px solid #2a2a3a;
-  color: #ccc;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  color: #eee;
 }
 
 .mob-role { font-size: 0.72rem; font-weight: 500; }
 
 .mob-nav-link {
   display: block;
-  padding: 0.7rem 1.25rem;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: #aaa;
+  padding: 0.9rem 1.25rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #e5e7eb;
   text-decoration: none;
-  border-bottom: 1px solid #1f1f2a;
-  background: none;
-  border-left: none;
-  border-right: none;
-  border-top: none;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  background: transparent;
   width: 100%;
   text-align: left;
   cursor: pointer;
   font-family: inherit;
-  transition: background 0.12s, color 0.12s;
+  transition: background 0.18s, color 0.18s, transform 0.18s;
 }
-.mob-nav-link:hover { background: rgba(255,255,255,0.03); color: #ccc; }
-.mob-logout { color: #f87171; }
+.mob-nav-link:hover {
+  background: rgba(124,58,237,0.12);
+  color: #fff;
+  transform: translateX(2px);
+}
+.mob-logout {
+  color: #f87171;
+}
