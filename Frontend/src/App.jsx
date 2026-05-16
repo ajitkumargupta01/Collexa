@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -6,10 +6,53 @@ import Dashboard from './pages/Dashboard';
 import CollegeDashboard from './pages/CollegeDashboard';
 import Events from './pages/Events';
 import About from './pages/About';
+import axios from 'axios';
+import { useEffect } from 'react';
 
 function App() {
+  useEffect(() => {
+    const interceptor = axios.interceptors.response.use(
+      (response) => response,
+      (error) => {
+        if (error.response && (error.response.status === 401 || error.response.status === 403)) {
+          // Clear all auth-related keys
+          localStorage.removeItem('user');
+          localStorage.removeItem('token');
+          // Dispatch storage event so components can pick it up
+          window.dispatchEvent(new Event('storage'));
+        }
+        return Promise.reject(error);
+      }
+    );
+    return () => {
+      axios.interceptors.response.eject(interceptor);
+    };
+  }, []);
+
   return (
     <Router>
+      <AppContent />
+    </Router>
+  );
+}
+
+function AppContent() {
+  const location = useLocation();
+
+  useEffect(() => {
+    const user = localStorage.getItem('user');
+    if (user) {
+      const allowedPaths = ['/dashboard', '/college-dashboard', '/events'];
+      // If the user visits the home page or about page (anything not allowed), we log them out
+      if (!allowedPaths.includes(location.pathname)) {
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
+        window.dispatchEvent(new Event('storage'));
+      }
+    }
+  }, [location.pathname]);
+
+  return (
       <div className="app-wrapper flex flex-col min-h-screen">
         <Navbar />
         <main className="flex-grow">
@@ -46,7 +89,6 @@ function App() {
           </div>
         </footer>
       </div>
-    </Router>
   );
 }
 

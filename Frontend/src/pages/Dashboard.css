@@ -492,6 +492,99 @@
   margin-top: 0.4rem;
 }
 
+@media (max-width: 768px) {
+  .stats-row {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-tabs {
+    gap: 0.35rem;
+    overflow-x: auto;
+    padding-bottom: 0.65rem;
+  }
+
+  .tab-btn {
+    padding: 0.65rem 0.85rem;
+    font-size: 0.82rem;
+    min-width: 120px;
+  }
+
+  .dash-section {
+    padding: 1.2rem;
+  }
+
+  .event-item,
+  .quotation-card,
+  .vendor-contact-preview,
+  .modal-box,
+  .events-grid > div,
+  .quotations-list > div {
+    width: 100%;
+  }
+
+  .event-item,
+  .event-item-vendor,
+  .quotation-card {
+    min-width: 0;
+  }
+
+  .event-header-row,
+  .q-top-row,
+  .charge-input-row,
+  .modal-actions,
+  .qr-action-row,
+  .qr-manual-form {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.85rem;
+  }
+
+  .event-header-row > div,
+  .q-top-row > div,
+  .q-price-status,
+  .qr-input-wrap {
+    min-width: 0;
+  }
+
+  .q-price-status {
+    align-items: flex-start;
+  }
+
+  .btn-cancel,
+  .btn-danger-outline,
+  .qr-camera-btn,
+  .qr-stop-btn,
+  .event-header-row button,
+  .q-top-row button {
+    width: 100%;
+  }
+
+  .event-header-row,
+  .q-top-row {
+    justify-content: flex-start;
+  }
+
+  .event-item .event-desc,
+  .event-item-vendor .event-desc,
+  .quotation-card .q-detail-grid {
+    width: 100%;
+  }
+
+  .q-detail-grid {
+    flex-direction: column;
+    gap: 0.75rem 0;
+  }
+
+  .charge-input-row {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-box {
+    max-width: 100%;
+    margin: 0 0.75rem;
+  }
+}
+
 .btn-cancel {
   background: #1f1f2a;
   color: #aaa;
@@ -505,6 +598,18 @@
   cursor: pointer;
 }
 .btn-cancel:hover { background: #2a2a3a; color: #ccc; }
+
+.event-actions-row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .event-actions-row {
+    flex-direction: column;
+    width: 100%;
+  }
+}
 
 .btn-danger-outline {
   background: none;

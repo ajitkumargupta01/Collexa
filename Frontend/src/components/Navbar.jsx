@@ -54,14 +54,6 @@ const Navbar = () => {
     return () => window.removeEventListener('storage', syncUser);
   }, []);
 
-  // If a logged-in user navigates to the public home page, log them out
-  useEffect(() => {
-    if (location.pathname === '/' && user) {
-      // clear session but stay on home
-      handleLogout('/');
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.pathname]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -81,6 +73,9 @@ const Navbar = () => {
   }, []);
 
   const handleLogout = (redirect = '/login') => {
+    // If redirect is an event object (from onClick), default to /login
+    const target = typeof redirect === 'string' ? redirect : '/login';
+
     // Clear all auth-related keys
     const uid = user?._id || user?.id;
     if (uid) {
@@ -88,12 +83,14 @@ const Navbar = () => {
     }
     localStorage.removeItem('user');
     localStorage.removeItem('token');
+
     // Dispatch storage event so other tabs/effects pick it up
     window.dispatchEvent(new Event('storage'));
+
     setUser(null);
     setUserMenuOpen(false);
     setMenuOpen(false);
-    navigate(redirect);
+    navigate(target);
   };
 
   let navLinks = user ? ROLE_NAV[user.role] || [] : [];
@@ -200,7 +197,7 @@ const Navbar = () => {
                   <button
                     id="logout-btn"
                     className="dropdown-item dropdown-logout"
-                    onClick={handleLogout}
+                    onClick={() => handleLogout()}
                   >
                     🚪 Sign Out
                   </button>
@@ -269,7 +266,7 @@ const Navbar = () => {
                 ⚙️ Edit Profile
               </button>
             )}
-            <button className="mob-nav-link mob-logout" onClick={handleLogout}>🚪 Sign Out</button>
+            <button className="mob-nav-link mob-logout" onClick={() => handleLogout()}>🚪 Sign Out</button>
           </>
         )}
       </div>

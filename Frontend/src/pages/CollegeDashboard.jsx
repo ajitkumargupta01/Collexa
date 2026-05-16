@@ -144,6 +144,26 @@ const CollegeDashboard = () => {
     }
   }, [navigate]);
 
+  // Listen for global storage changes (e.g. logout in another tab or navbar)
+  useEffect(() => {
+    const syncStorage = () => {
+      const storedUser = localStorage.getItem('user');
+      if (!storedUser) {
+        navigate('/login');
+      } else {
+        const parsedUser = JSON.parse(storedUser);
+        if (parsedUser.role !== 'college') {
+          navigate('/login');
+        } else {
+          setUser(parsedUser);
+        }
+      }
+    };
+    window.addEventListener('storage', syncStorage);
+    return () => window.removeEventListener('storage', syncStorage);
+  }, [navigate]);
+
+
   const fetchColleges = async () => {
     try {
       // Fetch all registered college names from backend
@@ -696,6 +716,7 @@ const CollegeDashboard = () => {
                               fontSize: '0.85rem',
                               fontWeight: freePassMode === val ? 700 : 400,
                               color: freePassMode === val ? '#22c55e' : 'inherit',
+                              whiteSpace: 'nowrap',
                             }}
                           >
                             <input
@@ -809,6 +830,7 @@ const CollegeDashboard = () => {
                               fontSize: '0.85rem',
                               fontWeight: accessMode === val ? 700 : 400,
                               color: accessMode === val ? '#ef4444' : 'inherit',
+                              whiteSpace: 'nowrap',
                             }}
                           >
                             <input
@@ -921,6 +943,7 @@ const CollegeDashboard = () => {
                                     padding: '0.15rem 0.55rem',
                                     fontSize: '0.75rem',
                                     fontWeight: 700,
+                                    whiteSpace: 'nowrap',
                                   }}
                                 >
                                   {evt.ticketPrice === 0 ? '🆓 Free Entry' : `🎫 ₹${evt.ticketPrice} General`}
@@ -935,6 +958,7 @@ const CollegeDashboard = () => {
                                       padding: '0.15rem 0.55rem',
                                       fontSize: '0.75rem',
                                       fontWeight: 700,
+                                      whiteSpace: 'nowrap',
                                     }}
                                   >
                                     👑 ₹{evt.vipPrice} VIP
@@ -950,6 +974,7 @@ const CollegeDashboard = () => {
                                       padding: '0.15rem 0.55rem',
                                       fontSize: '0.75rem',
                                       fontWeight: 700,
+                                      whiteSpace: 'nowrap',
                                     }}
                                   >
                                     🐦 ₹{evt.earlyBirdPrice} Early Bird
@@ -968,6 +993,7 @@ const CollegeDashboard = () => {
                                     padding: '0.15rem 0.55rem',
                                     fontSize: '0.75rem',
                                     fontWeight: 700,
+                                    whiteSpace: 'nowrap',
                                   }}
                                 >
                                   🔒 Restricted ({evt.allowedColleges.length === 1 && evt.allowedColleges[0] === user?.name ? 'My College Only' : `${evt.allowedColleges.length} college(s)`})
@@ -983,6 +1009,7 @@ const CollegeDashboard = () => {
                                     padding: '0.15rem 0.55rem',
                                     fontSize: '0.75rem',
                                     fontWeight: 700,
+                                    whiteSpace: 'nowrap',
                                   }}
                                 >
                                   🌐 Open to All
@@ -1080,11 +1107,10 @@ const CollegeDashboard = () => {
                 {quotations.map((q) => (
                   <div
                     key={q._id}
-                    className="p-4 rounded border-l-4 border-secondary card-hover bg-gray-50 dark:bg-gray-800"
+                    className="event-item p-4 rounded border-l-4 border-secondary card-hover bg-gray-50 dark:bg-gray-800"
                   >
                     <div
-                      className="flex justify-between items-start"
-                      style={{ flexWrap: 'wrap', gap: '0.75rem' }}
+                      className="flex justify-between items-start gap-4"
                     >
                       <div style={{ flex: 1 }}>
                         <h3 className="font-bold" style={{ marginBottom: '0.25rem' }}>
@@ -1198,14 +1224,14 @@ const CollegeDashboard = () => {
                         </span>
                       </div>
                       <div
-                        className="flex items-center gap-4"
+                        className="flex justify-between items-start gap-4"
                         style={{ flexDirection: 'column', alignItems: 'flex-end' }}
                       >
                         <p className="font-bold text-xl" style={{ color: 'hsl(var(--secondary))' }}>
                           ₹{Number(q.proposedPrice).toLocaleString()}
                         </p>
                         {q.status === 'pending' && (
-                          <div className="flex flex-col gap-2">
+                          <div className="event-actions-row">
                             <button
                               onClick={() => handleQuotationStatus(q._id, 'accepted')}
                               className="btn btn-primary text-sm p-1"
@@ -1240,9 +1266,10 @@ const CollegeDashboard = () => {
                 {ads.map((a) => (
                   <div
                     key={a._id}
-                    className="p-4 rounded border-l-4 border-primary card-hover flex justify-between items-center bg-gray-50 dark:bg-gray-800"
+                    className="event-item p-4 rounded border-l-4 border-primary card-hover bg-gray-50 dark:bg-gray-800 gap-4"
                   >
-                    <div>
+                    <div className="flex justify-between items-start">
+                      <div>
                       <h3 className="font-bold">For: {a.eventId?.title || 'Unknown Event'}</h3>
                       <p className="text-sm mt-1">Company: {a.companyId?.name}</p>
                       <p className="text-sm mt-1 mb-2 text-muted">Banner Req: "{a.bannerRequirements}"</p>
@@ -1260,7 +1287,7 @@ const CollegeDashboard = () => {
                     <div className="flex items-center gap-4">
                       <p className="font-bold text-xl text-green-500">+₹{Number(a.budget).toLocaleString()}</p>
                       {a.status === 'pending' && (
-                        <div className="flex flex-col gap-2">
+                        <div className="event-actions-row">
                           <button
                             onClick={() => handleAdStatus(a._id, 'accepted')}
                             className="btn btn-primary text-sm p-1"
@@ -1275,6 +1302,7 @@ const CollegeDashboard = () => {
                           </button>
                         </div>
                       )}
+                      </div>
                     </div>
                   </div>
                 ))}

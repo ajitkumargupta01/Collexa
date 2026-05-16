@@ -203,6 +203,12 @@
   margin-bottom: 1rem;
 }
 
+@media (max-width: 400px) {
+  .role-picker-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .role-card {
   position: relative;
   display: flex;

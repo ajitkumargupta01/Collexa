@@ -861,7 +861,7 @@ const Dashboard = () => {
 
           {studentTab==='browse' && (
             <div className="dash-section glass animate-slide-up mt-4">
-              <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',flexWrap:'wrap',gap:'1rem'}}>
+              <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',flexWrap:'wrap',gap:'1rem'}}>
                 <div>
                   <h2>🎪 Available Events</h2>
                   <p className="text-muted" style={{marginTop:'0.25rem',fontSize:'0.9rem'}}>Browse and purchase tickets for upcoming college events.</p>
@@ -917,12 +917,12 @@ const Dashboard = () => {
                               {evt.description && <p className="event-desc">{evt.description}</p>}
                               {evt.vipPrice>0 && <p className="event-meta" style={{color:'#a855f7'}}>👑 VIP: ₹{evt.vipPrice} &nbsp;|&nbsp; 🐦 Early Bird: ₹{evt.earlyBirdPrice||'—'}</p>}
                             </div>
-                            <div style={{display:'flex',flexDirection:'column',gap:'0.5rem',alignItems:'flex-end'}}>
+                            <div className="q-price-status">
                               <span style={{fontWeight:700,fontSize:'1.15rem',color:evt.ticketPrice===0?'#22c55e':'hsl(var(--secondary))'}}>{evt.ticketPrice===0?'🎁 FREE':`🎫 ₹${evt.ticketPrice}`}</span>
                               <span style={{fontSize:'0.75rem',padding:'0.2rem 0.6rem',borderRadius:'9999px',background:isPast?'rgba(107,114,128,0.2)':'rgba(34,197,94,0.15)',color:isPast?'#9ca3af':'#22c55e',fontWeight:600}}>{isPast?'Past Event':'Upcoming'}</span>
                               {!isPast && (alreadyOwned
                                 ? <><span style={{fontSize:'0.78rem',color:'#22c55e',fontWeight:700}}>✅ Ticket Owned</span><button className="btn btn-cancel" style={{fontSize:'0.75rem',padding:'0.3rem 0.8rem'}} onClick={()=>{const tk=myTickets.find(t=>(t.eventId?._id||t.eventId)===evt._id);if(tk)setShowQR(tk);}}>📱 Show QR</button></>
-                                : <div style={{display: 'flex', gap: '0.5rem'}}><button className="btn btn-secondary" style={{fontSize:'0.85rem',padding:'0.45rem 0.75rem'}} onClick={()=>setSelectedStudentEvent(evt)}>ℹ️ Info</button><button id={`buy-${evt._id}`} className="btn btn-primary" style={{fontSize:'0.85rem',padding:'0.45rem 1.1rem'}} onClick={()=>handleBuyTicket(evt)} disabled={buyingEventId===evt._id}>{buyingEventId===evt._id?'⏳ Buying...':'🎫 Buy Ticket'}</button></div>
+                                : <div className="event-actions-row"><button className="btn btn-secondary" style={{fontSize:'0.85rem',padding:'0.45rem 0.75rem'}} onClick={()=>setSelectedStudentEvent(evt)}>ℹ️ Info</button><button id={`buy-${evt._id}`} className="btn btn-primary" style={{fontSize:'0.85rem',padding:'0.45rem 1.1rem'}} onClick={()=>handleBuyTicket(evt)} disabled={buyingEventId===evt._id}>{buyingEventId===evt._id?'⏳ Buying...':'🎫 Buy Ticket'}</button></div>
                               )}
                             </div>
                           </div>
@@ -997,7 +997,7 @@ const Dashboard = () => {
                                 border:`1px solid ${statusClr}55`
                               }}>{statusIcon} {statusLbl}</span>
                             </div>
-                            <div style={{display:'flex',flexDirection:'column',gap:'0.5rem',alignItems:'flex-end'}}>
+                            <div className="q-price-status">
                               {!isUsed && !isCancelled && !isExpired && (
                                 <button className="btn btn-primary" style={{fontSize:'0.82rem',padding:'0.45rem 1rem'}} onClick={()=>setShowQR(tk)}>📱 Show QR</button>
                               )}
